@@ -383,6 +383,7 @@ L.Control.Measure = L.Control.extend({
         function() {
           // TODO. maybe remove any event handlers on zoom and delete buttons?
           this._layer.removeLayer(resultFeature);
+          this._map.fire('measuredeleted', null, false);
         },
         this
       );
