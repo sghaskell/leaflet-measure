@@ -111,11 +111,13 @@ L.Control.Measure = L.Control.extend({
   _expand: function() {
     dom.hide(this.$toggle);
     dom.show(this.$interaction);
+    this._map.fire('measureexpanded', null, false);
   },
   _collapse: function() {
     if (!this._locked) {
       dom.hide(this.$interaction);
       dom.show(this.$toggle);
+      this._map.fire('measurecollapsed', null, false);
     }
   },
   // move between basic states:
