@@ -118,8 +118,8 @@ L.Control.Measure = L.Control.extend({
     if (!this._locked) {
       dom.hide(this.$interaction);
       dom.show(this.$toggle);
-      this._map.fire('measurecollapsed ', null, false);
     }
+    this._map.fire('measurecollapsed', null, false);
   },
   // move between basic states:
   // measure not started, started/in progress but no points added, in progress and with points
