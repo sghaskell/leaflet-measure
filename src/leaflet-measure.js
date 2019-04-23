@@ -1,6 +1,7 @@
 import '../scss/leaflet-measure.scss';
 
 import template from 'lodash/template';
+import each from 'lodash/each';
 
 import units from './units';
 import calc from './calc';
@@ -117,7 +118,7 @@ L.Control.Measure = L.Control.extend({
     if (!this._locked) {
       dom.hide(this.$interaction);
       dom.show(this.$toggle);
-      this._map.fire('measurecollapsed', null, false);
+      this._map.fire('measurecollapsed ', null, false);
     }
   },
   // move between basic states:
@@ -336,6 +337,8 @@ L.Control.Measure = L.Control.extend({
 
     const calced = calc(latlngs);
 
+    //console.log(calced)
+
     if (latlngs.length === 1) {
       resultFeature = L.circleMarker(latlngs[0], this._symbols.getSymbol('resultPoint'));
       popupContent = pointPopupTemplateCompiled({
@@ -348,8 +351,20 @@ L.Control.Measure = L.Control.extend({
       });
     } else {
       resultFeature = L.polygon(latlngs, this._symbols.getSymbol('resultArea'));
+      let zoneDef = '';
+      each(latlngs, function(v, i) {
+        zoneDef += v.lat + ',' + v.lng;
+        if (i + 1 < latlngs.length) {
+          zoneDef += ';';
+        }
+      });
+
       popupContent = areaPopupTemplateCompiled({
-        model: L.extend({}, calced, this._getMeasurementDisplayStrings(calced))
+        model: L.extend({}, calced, {
+          displayStrings: this._getMeasurementDisplayStrings(calced),
+          points: zoneDef
+        })
+        //model: L.extend({}, calced, this._getMeasurementDisplayStrings(calced))
       });
     }
 
