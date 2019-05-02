@@ -307,17 +307,17 @@ L.Control.Measure = L.Control.extend({
     ));
     this.$results.innerHTML = resultsTemplateCompiled({ model });
   },
-  _buildZoneDef: function(latlngs) {
-    let zoneDef = '';
+  _buildfeatureDef: function(latlngs) {
+    let featureDef = '';
 
     each(latlngs, function(v, i) {
-      zoneDef += v.lat + ',' + v.lng;
+      featureDef += v.lat + ',' + v.lng;
       if (i + 1 < latlngs.length) {
-        zoneDef += ';';
+        featureDef += ';';
       }
     });
 
-    return zoneDef;
+    return featureDef;
   },
   // mouse move handler while measure in progress
   // adds floating measure marker under cursor
@@ -353,37 +353,29 @@ L.Control.Measure = L.Control.extend({
 
     if (latlngs.length === 1) {
       resultFeature = L.circleMarker(latlngs[0], this._symbols.getSymbol('resultPoint'));
-      let zoneDef = this._buildZoneDef(latlngs);
+      let featureDef = this._buildfeatureDef(latlngs);
       popupContent = pointPopupTemplateCompiled({
         //model: calced,
         model: L.extend({}, calced, {
-          //displayStrings: this._getMeasurementDisplayStrings(calced),
-          points: zoneDef
+          points: featureDef
         })
       });
     } else if (latlngs.length === 2) {
       resultFeature = L.polyline(latlngs, this._symbols.getSymbol('resultLine'));
-      let zoneDef = this._buildZoneDef(latlngs);
+      let featureDef = this._buildfeatureDef(latlngs);
       popupContent = linePopupTemplateCompiled({
         model: L.extend({}, calced, {
           displayStrings: this._getMeasurementDisplayStrings(calced),
-          points: zoneDef
+          points: featureDef
         })
       });
     } else {
       resultFeature = L.polygon(latlngs, this._symbols.getSymbol('resultArea'));
-      // let zoneDef = '';
-      // each(latlngs, function(v, i) {
-      //   zoneDef += v.lat + ',' + v.lng;
-      //   if (i + 1 < latlngs.length) {
-      //     zoneDef += ';';
-      //   }
-      // });
-      let zoneDef = this._buildZoneDef(latlngs);
+      let featureDef = this._buildfeatureDef(latlngs);
       popupContent = areaPopupTemplateCompiled({
         model: L.extend({}, calced, {
           displayStrings: this._getMeasurementDisplayStrings(calced),
-          points: zoneDef
+          points: featureDef
         })
         //model: L.extend({}, calced, this._getMeasurementDisplayStrings(calced))
       });
