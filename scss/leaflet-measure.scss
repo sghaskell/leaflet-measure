@@ -108,10 +108,12 @@ $button-icon-spacing: 4px;
 
     .leaflet-retina & {
       background-image: url(assets/rulers_@2X.png);
+      height: 44px;
+      width: 44px;
     }
 
     .leaflet-touch & {
-      background-size: 16px 16px;
+      background-size: 22px 22px;
     }
   }
 
