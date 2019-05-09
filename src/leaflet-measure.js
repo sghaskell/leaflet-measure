@@ -31,7 +31,9 @@ const areaPopupTemplateCompiled = template(areaPopupTemplate, templateSettings);
 L.Control.Measure = L.Control.extend({
   _className: 'leaflet-control-measure',
   options: {
+    leafletId: undefined,
     units: {},
+    map: undefined,
     position: 'topright',
     primaryLengthUnit: 'feet',
     secondaryLengthUnit: 'miles',
@@ -39,6 +41,7 @@ L.Control.Measure = L.Control.extend({
     activeColor: '#ABE67E', // base color for map features while actively measuring
     completedColor: '#C8F2BE', // base color for permenant features generated from completed measure
     captureZIndex: 10000, // z-index of the marker used to capture measure events
+    features: undefined, // feature groups to store features in
     popupOptions: {
       // standard leaflet popup options http://leafletjs.com/reference-1.3.0.html#popup-option
       className: 'leaflet-measure-resultpopup',
@@ -56,7 +59,12 @@ L.Control.Measure = L.Control.extend({
     this._latlngs = [];
     this._initLayout();
     map.on('click', this._collapse, this);
-    this._layer = L.layerGroup().addTo(map);
+    if (typeof this.options.features != 'undefined') {
+      this._layer = this.options.features.addTo(map);
+    } else {
+      this._layer = L.layerGroup().addTo(map);
+    }
+
     return this._container;
   },
   onRemove: function(map) {
@@ -349,8 +357,6 @@ L.Control.Measure = L.Control.extend({
 
     const calced = calc(latlngs);
 
-    //console.log(calced)
-
     if (latlngs.length === 1) {
       resultFeature = L.circleMarker(latlngs[0], this._symbols.getSymbol('resultPoint'));
       let featureDef = this._buildfeatureDef(latlngs);
@@ -391,6 +397,11 @@ L.Control.Measure = L.Control.extend({
         zoomLink,
         'click',
         function() {
+          if (this._map == null) {
+            if (typeof this.options.map != 'undefined') {
+              this._map = this.options.map;
+            }
+          }
           if (resultFeature.getBounds) {
             this._map.fitBounds(resultFeature.getBounds(), {
               padding: [20, 20],
@@ -411,12 +422,16 @@ L.Control.Measure = L.Control.extend({
         deleteLink,
         'click',
         function() {
-          // TODO. maybe remove any event handlers on zoom and delete buttons?
           this._layer.removeLayer(resultFeature);
           this._map.fire('measuredeleted', null, false);
         },
         this
       );
+    }
+
+    // Add feature to feature group
+    if (typeof this.options.features != 'undefined') {
+      this.options.features.addLayer(resultFeature);
     }
 
     resultFeature.addTo(this._layer);
