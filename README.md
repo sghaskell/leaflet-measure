@@ -87,6 +87,14 @@ Base color to use for features generated from a completed measurement. Value sho
 
 Options applied to the popup of the resulting measure feature. Properties may be any standard Leaflet [popup options](http://leafletjs.com/reference.html#popup-options).
 
+### features
+
+Optional `L.layerGroup` to persist features.
+
+### map
+
+Optional `L.map` used when passing [features](#features)
+
 ### units
 
 Custom units to make available to the measurement calculator. Packaged units are `feet`, `meters`, `miles`, and `kilometers` for length and `acres`, `hectares`, `sqfeet`, `sqmeters`, and `sqmiles` for areas. Additional unit definitions can be added to the packaged units using this option.
