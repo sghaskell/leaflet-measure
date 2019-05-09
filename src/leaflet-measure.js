@@ -31,7 +31,6 @@ const areaPopupTemplateCompiled = template(areaPopupTemplate, templateSettings);
 L.Control.Measure = L.Control.extend({
   _className: 'leaflet-control-measure',
   options: {
-    leafletId: undefined,
     units: {},
     map: undefined,
     position: 'topright',
