@@ -1,6 +1,8 @@
 <h3>${ __('areaMeasurement') }</h3>
-<p>{{ model.areaDisplay }}</p>
-<p>{{ model.lengthDisplay }} ${ __('perimeter') }</p>
+<p>{{ model.displayStrings.areaDisplay }}</p>
+<p>{{ model.displayStrings.lengthDisplay }} ${ __('perimeter') }</p>
+<br><h3>${ __('zoneDefinition') }</h3>
+<p><input type="text" width="100%" id="zone-def" value="{{ model.points }}"></p>
 <ul class="tasks">
   <li><a href="#" class="js-zoomto zoomto">${ __('centerOnArea') }</a></li>
   <li><a href="#" class="js-deletemarkup deletemarkup">${ __('delete') }</a></li>

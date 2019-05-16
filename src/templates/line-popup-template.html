@@ -1,5 +1,7 @@
 <h3>${ __('linearMeasurement') }</h3>
-<p>{{ model.lengthDisplay }}</p>
+<p>{{ model.displayStrings.lengthDisplay }}</p>
+<br><h3>${ __('zoneDefinition') }</h3>
+<p><input type="text" width="100%" id="zone-def" value="{{ model.points }}"></p>
 <ul class="tasks">
   <li><a href="#" class="js-zoomto zoomto">${ __('centerOnLine') }</a></li>
   <li><a href="#" class="js-deletemarkup deletemarkup">${ __('delete') }</a></li>
