@@ -26,5 +26,6 @@
   "sqmeters": "Sq Meters",
   "sqmiles": "Sq Miles",
   "decPoint": ".",
-  "thousandsSep": ","
+  "thousandsSep": ",",
+  "zoneDefinition": "Feature Definition"
 }
